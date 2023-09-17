@@ -12,15 +12,25 @@ const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   useEffect(() => {
-    const identifier = setTimeout(() => {
-      console.log("EFFECT RUNNING");
-      setFormIsValid(
-        enteredEmail.includes("@") && enteredPassword.trim().length > 6
-      );
-    }, 2000);
+    console.log("EFFECT RUNNING");
 
     return () => {
+      // componentがunmountされる時に実行される,
+      // useEffectが実行される前に実行される
       console.log("EFFECT CLEANUP");
+    };
+  }, [enteredPassword]);
+
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log("checkin form validity!");
+      setFormIsValid(
+        enteredEmail.includes("@") && enteredPassword.trim().length > 7
+      );
+    }, 500);
+
+    return () => {
+      console.log("CLEANUP");
       clearTimeout(identifier);
     };
   }, [enteredEmail, enteredPassword]);
